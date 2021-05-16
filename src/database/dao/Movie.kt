@@ -22,9 +22,11 @@ object MovieHasActors : Table("movie_has_actor") {
 
 class Movie(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Movie>(Movies)
+
     var title by Movies.title
     var description by Movies.description
     var durationMinutes by Movies.durationMinutes
+
     var director by Director referencedOn Movies.director
     var genre by Genre referencedOn Movies.genre
 

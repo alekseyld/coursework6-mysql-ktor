@@ -13,5 +13,6 @@ object SeatTypes : IntIdTable("seat_type") {
 
 class SeatType(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<SeatType>(SeatTypes)
+
     var name by SeatTypes.name
 }

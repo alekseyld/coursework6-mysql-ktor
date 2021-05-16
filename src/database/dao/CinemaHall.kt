@@ -13,5 +13,6 @@ object CinemaHalls : IntIdTable("cinema_hall") {
 
 class CinemaHall(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<CinemaHall>(CinemaHalls)
+
     var name by CinemaHalls.name
 }

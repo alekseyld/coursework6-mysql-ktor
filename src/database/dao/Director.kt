@@ -13,5 +13,6 @@ object Directors : IntIdTable("director") {
 
 class Director(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Director>(Directors)
+
     var fullName by Directors.fullName
 }

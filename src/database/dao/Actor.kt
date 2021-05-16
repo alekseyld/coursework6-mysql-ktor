@@ -12,5 +12,6 @@ object Actors : IntIdTable("actor") {
 
 class Actor(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Actor>(Actors)
+
     var fullName by Actors.fullName
 }
