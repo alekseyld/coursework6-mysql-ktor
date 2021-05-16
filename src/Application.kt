@@ -36,24 +36,16 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
+            call.respondRedirect("/movie_sessions")
+        }
 
-//            val date : Date = kotlin.runCatching {
-//                LocalDate.parse(call.parameters["date"]).
-//            }.getOrElse { Date() }
-
-
-
-
-//            val json = transaction {
-//
-//                ExampleDataset.genresStrings.forEach {
-//                    Genre.new {
-//                        this.name = it
-//                    }
-//                }
-//            }
-
-//            call.respond(json)
+        get("/movie_sessions") {
+            call.respond(
+                ThymeleafContent(
+                    "movie_sessions",
+                    mapOf()
+                )
+            )
         }
 
         get("/html-thymeleaf") {
