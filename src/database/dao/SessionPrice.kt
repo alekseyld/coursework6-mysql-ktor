@@ -19,4 +19,21 @@ class SessionPrice(id: EntityID<Int>) : IntEntity(id) {
     var lowPrice by SessionPrices.lowPrice
     var mediumPrice by SessionPrices.mediumPrice
     var highPrice by SessionPrices.highPrice
+
+    fun toModel() : SessionPriceModel {
+        return SessionPriceModel(
+            name = name,
+            lowPrice = lowPrice,
+            mediumPrice = mediumPrice,
+            highPrice = highPrice,
+        );
+    }
+
 }
+
+data class SessionPriceModel(
+    val name: String,
+    val lowPrice: Int,
+    val mediumPrice: Int,
+    val highPrice: Int,
+)

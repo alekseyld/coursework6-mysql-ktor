@@ -9,7 +9,7 @@ import java.io.File
 
 object ExampleDataset {
 
-    val genresStrings = listOf(
+    private  val genresStrings = listOf(
         "Comedy",
         "Fantasy",
         "Crime",
@@ -33,7 +33,8 @@ object ExampleDataset {
         "Sport"
     )
 
-    fun generateCinemaHall(name: String) {
+
+    private  fun generateCinemaHall(name: String) {
 
         transaction {
             val hall1 = CinemaHall.new {
@@ -58,7 +59,7 @@ object ExampleDataset {
         }
     }
 
-    fun createIfNededActor(fullName: String) : Actor {
+    private  fun createIfNededActor(fullName: String) : Actor {
         val finded = Actor.find { Actors.fullName eq fullName }
 
         return if (finded.empty()) {
@@ -68,21 +69,31 @@ object ExampleDataset {
         }
     }
 
-    fun createMovie(
+    private  fun createMovie(
         title: String,
         description: String,
         duration: Int,
         genre: String,
         director: String,
+        posterUrl: String,
         actor: List<String>
     ) {
 
+        val listActorsEntity = mutableListOf<Actor>()
+
         transaction {
+            actor.forEach {
+                listActorsEntity.add(createIfNededActor(it))
+            }
+        }
+
+        val moview = transaction {
 
             Movie.new {
                 this.title = title
                 this.description = description
                 this.durationMinutes = duration
+                this.posterUrl = posterUrl
                 this.genre = Genre.find { Genres.name eq genre }.elementAt(0)
 
                 val findedDirector = Director.find { Directors.fullName eq director }
@@ -95,20 +106,33 @@ object ExampleDataset {
                     this.director = findedDirector.elementAt(0);
                 }
 
-                val listActorsEntity = mutableListOf<Actor>()
 
-                actor.forEach {
-                    listActorsEntity.add(createIfNededActor(it))
-                }
-
-                this.actors = SizedCollection(listActorsEntity)
 
             }
-
-
         }
 
 
+        transaction {
+            moview.actors = SizedCollection(listActorsEntity)
+        }
+
+
+
+    }
+
+    fun createCinemaHalls() {
+        generateCinemaHall("Зал №1");
+        generateCinemaHall("Зал №2");
+    }
+
+    fun createGenres() {
+        transaction {
+            genresStrings.forEach {
+                Genre.new {
+                    this.name = it
+                }
+            }
+        }
     }
 
     fun createExampleMovieList() {
@@ -125,9 +149,16 @@ object ExampleDataset {
                 duration = movie.runtime,
                 genre = movie.genres[0],
                 director = movie.director,
-                actor = movie.actor.split(",").map { it.trim() }
+                posterUrl = movie.posterUrl,
+                actor = movie.actors.split(",").map { it.trim() },
             );
         }
+    }
+
+    fun createExampleDataSet() {
+//        createCinemaHalls()
+        createGenres()
+        createExampleMovieList()
     }
 }
 
@@ -136,6 +167,7 @@ private data class ExampleMovie(
     val runtime: Int, //duration
     val genres: List<String>,
     val director: String,
-    val actor: String,
-    val plot: String
+    val actors: String,
+    val plot: String,
+    val posterUrl: String
 )

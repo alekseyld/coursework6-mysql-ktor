@@ -21,4 +21,20 @@ class Seat(id: EntityID<Int>) : IntEntity(id) {
 
     var cinemaHall by CinemaHall referencedOn Seats.cinemaHall
     var seatType by SeatType referencedOn Seats.seatType
+
+    fun toModel(): SeatModel {
+        return SeatModel(
+            id = this.id.value,
+            row = this.row,
+            number = this.number,
+            seatType = seatType.name
+        );
+    }
 }
+
+data class SeatModel(
+    val id: Int,
+    val row: Int,
+    val number: Int,
+    val seatType: String
+);

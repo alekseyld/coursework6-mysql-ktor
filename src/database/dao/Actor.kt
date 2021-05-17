@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 
 object Actors : IntIdTable("actor") {
-    val fullName: Column<String> = varchar("full_name", 45)
+    val fullName: Column<String> = varchar("full_name", 256)
 }
 
 class Actor(id: EntityID<Int>) : IntEntity(id) {

@@ -17,4 +17,14 @@ class SeatReserved(id: EntityID<Int>) : IntEntity(id) {
     var movieSession by MovieSession referencedOn SeatReserveds.movieSession
     var reservation by Reservation referencedOn SeatReserveds.reservation
     var seat by Seat referencedOn SeatReserveds.seat
+
+    fun toModel() : SeatReservedModel {
+        return SeatReservedModel(
+            seatId = seat.id.value
+        )
+    }
 }
+
+data class SeatReservedModel(
+    val seatId: Int,
+)

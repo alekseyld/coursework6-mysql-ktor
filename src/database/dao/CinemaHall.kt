@@ -15,4 +15,17 @@ class CinemaHall(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<CinemaHall>(CinemaHalls)
 
     var name by CinemaHalls.name
+
+    fun toModel() : CinemaHallModel {
+        return CinemaHallModel(
+            id = this.id.value,
+            name = this.name
+        );
+    }
 }
+
+data class CinemaHallModel(
+    val id: Int,
+    val name: String
+)
+
