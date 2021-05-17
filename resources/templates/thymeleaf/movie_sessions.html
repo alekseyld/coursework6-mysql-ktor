@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Movie Sessions</title>
 </head>
 <body>
 
+<!--/*@thymesVar id="movieSessions" type="java.util.List<com.alekseyld.database.dao.MovieSession>"*/-->
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Text</td>
+        <td>Due to</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${movieSessions.isEmpty()}">
+        <td colspan="4">No tasks</td>
+    </tr>
+    <tr th:each="moviesSession : ${movieSessions}">
+        <td th:text="${moviesSession.id}">1</td>
+        <!--        <td><a href="view.html" th:href="@{'/' + ${task.id}}" th:text="${task.title}">Title ...</a></td>-->
+        <!--        <td th:text="${task.text}">Text ...</td>-->
+        <!--        <td th:text="${#calendars.format(task.dueTo)}">July 11, 2012 2:17:16 PM CDT</td>-->
+    </tr>
+    </tbody>
+</table>
+
 </body>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
 </html>

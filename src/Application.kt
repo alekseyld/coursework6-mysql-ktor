@@ -1,6 +1,8 @@
 package com.alekseyld
 
 import com.alekseyld.database.DatabaseInit
+import com.alekseyld.database.ExampleDataset
+import com.alekseyld.database.dao.MovieSession
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.*
@@ -9,6 +11,7 @@ import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.thymeleaf.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -36,14 +39,29 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            call.respondRedirect("/movie_sessions")
+
+//            MovieSession.new {
+//                startDate = LocalDateTime.of(2021, 05, 16, )
+//            }
+
+//            ExampleDataset.generateCinemaHall("Зал №2")
+            ExampleDataset.createExampleMovieList()
+
+//            call.respondRedirect("/movie_sessions")
         }
 
         get("/movie_sessions") {
+
+            val movieSessions : List<MovieSession> = transaction {
+                MovieSession.all().toList()
+            }
+
             call.respond(
                 ThymeleafContent(
                     "movie_sessions",
-                    mapOf()
+                    mapOf(
+                        "movieSessions" to movieSessions
+                    )
                 )
             )
         }
